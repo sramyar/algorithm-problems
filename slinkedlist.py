@@ -1,3 +1,7 @@
+'''
+Implementation of the Singly Linked List data structures
+'''
+
 class LinkedList:
     '''
     Singly linked list
