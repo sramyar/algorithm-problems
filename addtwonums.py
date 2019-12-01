@@ -8,48 +8,45 @@ Input: (2 -> 4 -> 3) + (5 -> 6-> 4)
 Output: 7 -> 0 -> 8
 
 '''
-#Singly list class
-class ListNode:
-    def __init__(self, val):
-        self.value = val
-        self.next = None
-
-class LinkedList:
-    def __init__(self, start_node):
-        self.start = start_node
-        self.nodelist = [start_node]
-    
-    def add(self, node):
-        cur = self.start
-        while cur.next is not None:
-            cur = cur.next
-        cur.next = node
+from slinkedlist import LinkedList, Node
 
 
-n1 = ListNode(2)
-n2 = ListNode(4)
-n3 = ListNode(3)
+l1 = LinkedList()
+l1.add(2)
+l1.add(4)
+l1.add(3)
 
-n1.next = n2
-n2.next = n3
+l2 = LinkedList()
+l2.add(5)
+l2.add(6)
+l2.add(4)
 
-m1 = ListNode(5)
-m2 = ListNode(6)
-m3 = ListNode(4)
+def addtwonums(list1: LinkedList, list2: LinkedList) -> LinkedList:
+        
+    solution = LinkedList()
+    c1 = list1.head
+    c2 = list2.head
+    carry = 0
+    while c1 != None or c2 != None:
+        if c1 is None:
+            x = 0
+        else:
+            x = c1.value
+        if c2 is None:
+            y = 0
+        else:
+            y = c2.value
+        total = x + y + carry
+        if total < 10:
+            solution.add(total)
+            carry = 0
+        else:
+            solution.add(total - 10)
+            carry = 1
+        if c1 is not None: c1 = c1.next
+        if c2 is not None: c2 = c2.next
+    return solution
 
-m1.next = m2
-m2.next = m3
-
-input1 = set(n1,n2,n3)
-input2 = set(m1,m2,m3)
+print(addtwonums(l1,l2))
 
 
-class Solution:
-    def addtwonums(self, list1, list2):
-        cue1 = list1.start
-        cue12 = list2.start
-        output = LinkedList(ListNode(cue1.value + cue2.value))
-        ocue = output.start
-        while True:
-            
-    
