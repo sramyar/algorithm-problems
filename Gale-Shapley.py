@@ -12,19 +12,13 @@ Example:
 m = {1:[2,3,1], 2:[1,2,3], 3:[1,3,2]}
 f = {1:[2,1,3], 2:[2,3,1], 3:[1,2,3]}
 
-returns -> (1,3), (2,1), (3,2)
+returns -> [(1,2), (2,1), (3,3)] that is the M-Optimal match
 '''
 
 def gale_shapley(m, f):
     if len(m) != len(f):
         print('Wrong size')
         return
-
-    def check():
-        for man in m.keys():
-            if len(m[man]) > 0:
-                return True
-        return False
     
     def check_w_free(w):
         if len(matches) == 0:
@@ -34,11 +28,12 @@ def gale_shapley(m, f):
                 return item[0]
         return None
 
+    unmatched_dudes = [man for man in m.keys()]
     matches = []
 
-    while (check()):
+    while len(unmatched_dudes) > 0:
         print(matches)
-        for man in m.keys():
+        for man in unmatched_dudes:
             if len(m[man]) == 0:
                 continue
             w = m[man][0]
@@ -46,13 +41,14 @@ def gale_shapley(m, f):
             current_match = check_w_free(w)
             if current_match is None:
                 matches.append((man,w))
-                m[man] = []
+                unmatched_dudes.remove(man)
             else:
                 if f[w].index(current_match) < f[w].index(man):
                     continue
                 else:
                     matches.append((man,w))
-                    m[man] = []
+                    unmatched_dudes.remove(man)
+                    unmatched_dudes.append(current_match)
                     matches.remove((current_match,w))
 
     return matches
