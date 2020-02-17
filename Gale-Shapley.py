@@ -19,20 +19,46 @@ def gale_shapley(m, f):
     if len(m) != len(f):
         print('Wrong size')
         return
-    def remove(mm,mw):
+
+    def check():
         for man in m.keys():
-            m[man].remove(mw)
-        for woman in f.keys():
-            f[woman].remove(mm)
+            if len(m[man]) > 0:
+                return True
+        return False
+    
+    def check_w_free(w):
+        if len(matches) == 0:
+            return None
+        for item in matches:
+            if w == item[1]:
+                return item[0]
+        return None
 
     matches = []
-    for dude in m.keys():
-        for ch in m[dude]:
-            if f[ch][0] == dude:
-                matches.append((dude,ch))
-                remove(dude,ch)
-    
+
+    while (check()):
+        print(matches)
+        for man in m.keys():
+            if len(m[man]) == 0:
+                continue
+            w = m[man][0]
+            m[man].remove(w)
+            current_match = check_w_free(w)
+            if current_match is None:
+                matches.append((man,w))
+                m[man] = []
+            else:
+                if f[w].index(current_match) < f[w].index(man):
+                    continue
+                else:
+                    matches.append((man,w))
+                    m[man] = []
+                    matches.remove((current_match,w))
+
     return matches
+
+
+# test case:
 
 m = {1:[2,3,1], 2:[1,2,3], 3:[1,3,2]}
 f = {1:[2,1,3], 2:[2,3,1], 3:[1,2,3]}
