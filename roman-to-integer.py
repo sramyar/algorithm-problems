@@ -30,7 +30,6 @@ Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 '''
 
 value = {'I':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
-out_of_order_value = {'I': -1, 'X': -10, 'C': -100}
 
 def out_of_order(curr, next):
     if curr == 'I' and (next == 'V' or next == 'X'):
@@ -50,9 +49,8 @@ def roman_to_integer(input):
     for i in range(len(input)):
         curr = input[i]
         next = input[i+1] if i+1 < len(input) else None
-        #print(curr,next, sum)
         if out_of_order(curr,next):
-            sum += out_of_order_value[curr]
+            sum -= value[curr]
         else:
             sum += value[curr]
     return sum
