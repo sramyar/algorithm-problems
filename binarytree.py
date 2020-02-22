@@ -77,6 +77,7 @@ class BinaryTree:
         q.put(u)
         while not q.empty():
             temp = q.get()
+            #yield temp
             print(temp.value)
             if temp.left != None:
                 q.put(temp.left)
@@ -164,6 +165,7 @@ class BinaryTree:
             self.splice(w)
     
 
+'''
 tree = BinaryTree()
 tree.add(7)
 tree.add(8)
@@ -173,6 +175,7 @@ tree.add(10)
 tree.bf_traverse()
 tree.add(100)
 tree.bf_traverse()
+'''
 
     
     
