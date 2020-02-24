@@ -7,6 +7,9 @@ class Node:
         self.right = None
         self.left = None
         self.value = val
+    
+    def __repr__(self):
+        return str(self.value)
 
 class BinaryTree:
 
