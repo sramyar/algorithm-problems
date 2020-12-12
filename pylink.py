@@ -31,6 +31,23 @@ class linkedlist:
             self.tail.next = None
         self.size += 1
 
+    def pop(self):
+        if (self.size == 0):
+            return None
+        else:
+            u = self.tail.data
+            if(self.size == 1):
+                self.head = self.tail = null
+            else:
+                cue = self.head
+                while(cue.next != self.tail):
+                    cue = cue.next
+                self.tail = cue
+                self.tail.next = None
+            self.size -= 1
+            return u
+
+
     def __repr__(self):
         out = ''
         u = self.head
@@ -88,6 +105,9 @@ def main():
     r.add(4)
     a = add_lists(l,r)
     print(a)
+    print(l)
+    print(l.pop())
+    print(l)
     
 if __name__ == "__main__":
     main()
