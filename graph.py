@@ -8,16 +8,21 @@ class Graph:
     def __init__(self,n):
         self.n = n
         self.alist = []
+        self.costs = []
         for i in range(n):
             self.alist.append([])
+            self.costs.append([])
     
-    def addEdge(self,i,j):
+    def addEdge(self,i,j,c):
         self.alist[i].append(j)
+        self.costs[i].append(c)
     
     def removeEdge(self,i,j):
         if self.alist[i] != None:
             if j in self.alist[i]:
-                self.alist.remove(j)
+                indx = self.alist[i].index(j)
+                self.alist[i].remove(j)
+                self.costs[i].remove(costs[i][indx])
                 return True
         else:
             return False
@@ -27,6 +32,10 @@ class Graph:
     
     def outEdges(self,i):
         return list(self.alist[i])
+    
+    def getCost(self,i,j):
+        if j in self.alist[i]:
+            return self.costs[i][self.alist[i].index(j)]
 
     def inEdges(self,j):
         inEdges = []
