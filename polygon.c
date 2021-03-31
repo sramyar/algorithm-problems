@@ -1,64 +1,109 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int main(void)
+FILE* openFile(void)
 {
-    int rows, cols, poly, fill, x, y;
-    int** matrix;
-    FILE *ifp, *ofp;
-    char filename[20];
-    //scanf("%s",filename);
+    // initialize and assign file pointer
+    FILE *ifp;
     ifp = fopen("poly1.txt","r");
-    //ofp = fopen(argv[2],"w");
-    int counter, i, j = 0;
+    return ifp;
+}
+
+
+void readParams(int* rows, int* cols, int* poly, int* fill, int* x, int* y)
+{
+    
+    FILE *ifp = openFile();
+
+    // initiating cursors and counter
+    int counter = 0;
     int cue;
-    while (fscanf(ifp, "%d", &cue) != EOF)
-    {
+
+    // while loop for reading in the ints
+    while (counter < 6){
+        // read in number from file to cue
+        fscanf(ifp, "%d", &cue);
+        // cases for assigning the first numbers to coresp. params
         switch (counter)
         {
         case 0:
-            rows = cue;
-            matrix = (int**)malloc(rows*sizeof(int*));
+            *rows = cue;
             break;
         case 1:
-            cols = cue;
-            for (int j = 0; j < rows; j++){
-                matrix[j] = (int*)malloc(cols*sizeof(int));
-            }
+            *cols = cue;
             break;
         case 2:
-            poly = cue;
+            *poly = cue;
             break;
         case 3:
-            fill = cue;
+            *fill = cue;
             break;
         case 4:
-            x = cue;
+            *x = cue;
             break;
         case 5:
-            y = cue;
+            *y = cue;
             break;
         }
-        
-        counter++;
-        
-        if (counter > 6){
+        counter++; 
+    }
+
+}
+
+void readImage(int rows, int cols, int** matrix)
+{
+    // initiate file pointer
+    FILE *ifp = openFile();
+
+    // setting cue, counter and i,j coordinates for matrix
+    int cue;
+    int counter, i, j;
+    counter = i = j = 0;
+    while (fscanf(ifp, "%d", &cue) != EOF){
+        if (counter < 6) {;}
+        else{
             matrix[i][j] = cue;
-            //printf("%d%d",i,j);
-            if (j < cols - 1)
-            {
+            if (j < cols -1){
                 j++;
             }
-            else if(j == cols - 1)
-            {
-                i++;
+            else{
                 j = 0;
+                i++;
             }
         }
-        
-
+        counter++;
     }
-    
+}
+
+void changeColor(int** matrix, int fill, int poly, int x, int y, int rows, int cols)
+{
+    if (matrix[x][y] == fill || matrix[x][y] == poly){
+        return;
+    }
+
+    matrix[x][y] = fill;
+    if (x + 1 < cols){changeColor(matrix, fill, poly, x + 1, y, rows, cols);}
+    if (x - 1 > 0){changeColor(matrix, fill, poly, x - 1, y, rows, cols);}
+    if (y + 1 < rows){changeColor(matrix, fill, poly, x, y + 1, rows, cols);}
+    if (y - 1 > 0){changeColor(matrix, fill, poly, x, y - 1, rows, cols);}
+}
+
+
+int main(void)
+{
+
+    // define parameters
+    int rows, cols, poly, fill, x, y;
+    readParams(&rows, &cols, &poly, &fill, &x, &y);
+    int** matrix;
+    matrix = (int**) malloc(rows*sizeof(int*));
+    for (int i = 0; i < rows; i++){
+        matrix[i] = (int*) malloc(cols*sizeof(int));
+    }
+    readImage(rows, cols, matrix);
+
+    changeColor(matrix, fill, poly, x, y, rows, cols);
+
     for (size_t i = 0; i < rows; i++)
     {
         printf("\n");
@@ -68,10 +113,13 @@ int main(void)
         }
         
     }
-    
-    
-    
+
+    for (int i = 0; i < rows; i++)
+    {
+        free(matrix[i]);
+    }
     
 
     return 0;
+
 }
