@@ -23,7 +23,7 @@ void increase_priority(Heap* h, int i, int new_value)
 {
     assert(h->array[i] <= new_value);
     h->array[i] = new_value;
-    while (i > 0)
+    while (i > 0 && h->array[parent(i)] < h->array[i])
     {
         swap(h->array, i, parent(i));
         i = parent(i);
@@ -34,23 +34,25 @@ void increase_priority(Heap* h, int i, int new_value)
 // insert value/key to heap
 void insert(Heap* h, int value)
 {
+    // *** NOTE: changed the initialization both here for arr[size-1] and also
+    // the main array for heap in main() ***
     assert(h->length > h->size);
     h->size++;
-    h->array[h->size - 1] = -1;
+    h->array[h->size - 1] = -2;
     increase_priority(h, h->size - 1, value);
 }
 
-int main(void)
-{
-    int arr[12] = {0,11,16,4,10,14,7,9,3,2,8,1};
-    Heap* h = array_to_Heap(arr,12);
-    printArray(h->array, h->length);
-    int max = extract_max(h);
-    printf("max is: %d\n",max);
-    printArray(h->array,h->size);
-    increase_priority(h, 1, 17);
-    printArray(h->array,h->size);
-    insert(h, 18);
-    printArray(h->array,h->size);
-    return 0;
-}
+// int main(void)
+// {
+//     int arr[12] = {0,11,16,4,10,14,7,9,3,2,8,1};
+//     Heap* h = array_to_Heap(arr,12);
+//     printArray(h->array, h->length);
+//     int max = extract_max(h);
+//     printf("max is: %d\n",max);
+//     printArray(h->array,h->size);
+//     increase_priority(h, 1, 17);
+//     printArray(h->array,h->size);
+//     insert(h, 18);
+//     printArray(h->array,h->size);
+//     return 0;
+// }

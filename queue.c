@@ -47,6 +47,13 @@ int dequeue(Queue* q)
     return x;
 }
 
+// returns 1 if full and 0 otherwise
+int isFull(Queue* q)
+{
+    if(q->count == q->length -1){return 1;}
+    else {return 0;}
+}
+
 void printQueue(Queue* q)
 {
     if(q->count == 0){printf("[ ]\n");}
@@ -60,7 +67,7 @@ void printQueue(Queue* q)
         
     }
     else{
-        for(int i=0; i < q->count - 1; i++){
+        for(int i=0; i < q->count ; i++){
             printf("%d <-- ", q->array[cue]);
             if(cue != q->length - 1){cue++;}
             else {cue = 0;}
@@ -78,28 +85,45 @@ void printArr(int* arr, int size)
 }
 
 
-int main(void)
-{
-    int arr[7] = {0};
-    Queue* q = initializeQueue(7,arr);
-    printArr(q->array, q->length);
-    for (int i=0; i<6; i++){
-        printQueue(q);
-        enqueue(q,i);
-    }
-    printQueue(q);
-    dequeue(q);
-    dequeue(q);
-    dequeue(q);
-    dequeue(q);
-    dequeue(q); 
-    printQueue(q);
-    enqueue(q,200);
-    enqueue(q,744);
-    printQueue(q);
-    dequeue(q);
-    printQueue(q);
+// int main(void)
+// {
+//     int arr[7] = {0};
+//     Queue* q = initializeQueue(7,arr);
+//     printArr(q->array, q->length);
+//     for (int i=0; i<6; i++){
+//         printQueue(q);
+//         enqueue(q,i);
+//     }
+//     printQueue(q);
+//     dequeue(q);
+//     dequeue(q);
+//     dequeue(q);
+//     dequeue(q);
+//     dequeue(q); 
+//     printQueue(q);
+//     printf("head is now %d and tail is: %d\n",q->head,q->tail);
+//     dequeue(q);
+//     printf("head is now %d and tail is: %d\n",q->head,q->tail);
+//     enqueue(q,200);
+//     printf("head is now %d and tail is: %d\n",q->head,q->tail);
+//     enqueue(q,744);
+//     printf("head is now %d and tail is: %d\n",q->head,q->tail);
+//     enqueue(q,33);
+//     printf("head is now %d and tail is: %d\n",q->head,q->tail);
+//     printQueue(q);
+//     dequeue(q);
+//     //printQueue(q);
+//     srand(2);
+//     int count = 0;
+//     for (int i = 0; i < 100000; i++){
+//         count += rand()%11;
+//         //printf("random is: %d\n", rand()%5);
+//     }
 
+//     printf("average is: %f\n",(count/100000.0));
+
+//     free(q);
+//     q = NULL;
     
-    return 0;
-}
+//     return 0;
+// }
